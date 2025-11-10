@@ -21,7 +21,7 @@ router.post('/events/auto-register', auth, async (req, res) => {
     }
 
     const result = await agenticAICore.autoRegisterForEvents(
-      req.user.id,
+      req.userId,
       query,
       preferences || {}
     );
@@ -47,7 +47,7 @@ router.post('/materials/find', auth, async (req, res) => {
     }
 
     const result = await agenticAICore.findAndOrganizeMaterials(
-      req.user.id,
+      req.userId,
       query,
       options || {}
     );
@@ -67,7 +67,7 @@ router.post('/materials/find', auth, async (req, res) => {
 router.get('/assignments/manage', auth, async (req, res) => {
   try {
     const result = await agenticAICore.manageAssignmentsAndDeadlines(
-      req.user.id,
+      req.userId,
       {}
     );
 
@@ -102,7 +102,7 @@ router.post('/assignments/create', auth, async (req, res) => {
     }
 
     const assignment = new Assignment({
-      userId: req.user.id,
+      userId: req.userId,
       title,
       description,
       courseId,
@@ -137,7 +137,7 @@ router.get('/assignments', auth, async (req, res) => {
   try {
     const { status, type } = req.query;
     
-    const query = { userId: req.user.id };
+    const query = { userId: req.userId };
     
     if (status) {
       query.status = status;
@@ -171,7 +171,7 @@ router.put('/assignments/:id', auth, async (req, res) => {
   try {
     const assignment = await Assignment.findOne({
       _id: req.params.id,
-      userId: req.user.id
+      userId: req.userId
     });
 
     if (!assignment) {
@@ -205,7 +205,7 @@ router.delete('/assignments/:id', auth, async (req, res) => {
   try {
     const assignment = await Assignment.findOneAndDelete({
       _id: req.params.id,
-      userId: req.user.id
+      userId: req.userId
     });
 
     if (!assignment) {
@@ -243,7 +243,7 @@ router.post('/exam-prep/create', auth, async (req, res) => {
     };
 
     const result = await agenticAICore.createExamPreparationPlan(
-      req.user.id,
+      req.userId,
       examDetails
     );
 
@@ -261,7 +261,7 @@ router.post('/exam-prep/create', auth, async (req, res) => {
  */
 router.get('/exam-prep', auth, async (req, res) => {
   try {
-    const examPreps = await ExamPrep.find({ userId: req.user.id })
+    const examPreps = await ExamPrep.find({ userId: req.userId })
       .populate('courseId', 'name code')
       .sort({ examDate: 1 });
 
@@ -285,7 +285,7 @@ router.get('/exam-prep/:id', auth, async (req, res) => {
   try {
     const examPrep = await ExamPrep.findOne({
       _id: req.params.id,
-      userId: req.user.id
+      userId: req.userId
     }).populate('courseId', 'name code');
 
     if (!examPrep) {
@@ -313,7 +313,7 @@ router.put('/exam-prep/:id/progress', auth, async (req, res) => {
 
     const examPrep = await ExamPrep.findOne({
       _id: req.params.id,
-      userId: req.user.id
+      userId: req.userId
     });
 
     if (!examPrep) {
@@ -362,7 +362,7 @@ router.get('/bookings', auth, async (req, res) => {
   try {
     const { resourceType, status } = req.query;
     
-    const query = { userId: req.user.id };
+    const query = { userId: req.userId };
     
     if (resourceType) {
       query.resourceType = resourceType;
@@ -394,12 +394,12 @@ router.get('/bookings', auth, async (req, res) => {
  */
 router.get('/preferences', auth, async (req, res) => {
   try {
-    let preferences = await UserPreferences.findOne({ userId: req.user.id });
+    let preferences = await UserPreferences.findOne({ userId: req.userId });
 
     if (!preferences) {
       // Create default preferences
       preferences = new UserPreferences({
-        userId: req.user.id
+        userId: req.userId
       });
       await preferences.save();
     }
@@ -421,11 +421,11 @@ router.get('/preferences', auth, async (req, res) => {
  */
 router.put('/preferences', auth, async (req, res) => {
   try {
-    let preferences = await UserPreferences.findOne({ userId: req.user.id });
+    let preferences = await UserPreferences.findOne({ userId: req.userId });
 
     if (!preferences) {
       preferences = new UserPreferences({
-        userId: req.user.id,
+        userId: req.userId,
         ...req.body
       });
     } else {
@@ -536,37 +536,37 @@ router.get('/dashboard', auth, async (req, res) => {
   try {
     // Get pending assignments
     const pendingAssignments = await Assignment.find({
-      userId: req.user.id,
+      userId: req.userId,
       status: { $in: ['pending', 'in_progress'] }
     }).sort({ dueDate: 1 }).limit(5);
 
     // Get upcoming exams
     const upcomingExams = await ExamPrep.find({
-      userId: req.user.id,
+      userId: req.userId,
       examDate: { $gte: new Date() },
       status: { $in: ['planning', 'in_progress'] }
     }).sort({ examDate: 1 }).limit(5);
 
     // Get recent bookings
     const recentBookings = await Booking.find({
-      userId: req.user.id,
+      userId: req.userId,
       status: { $in: ['pending', 'confirmed'] }
     }).sort({ bookingTime: -1 }).limit(5);
 
     // Calculate statistics
     const totalAssignments = await Assignment.countDocuments({
-      userId: req.user.id,
+      userId: req.userId,
       status: { $in: ['pending', 'in_progress'] }
     });
 
     const urgentAssignments = await Assignment.countDocuments({
-      userId: req.user.id,
+      userId: req.userId,
       status: { $in: ['pending', 'in_progress'] },
       dueDate: { $lte: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) }
     });
 
     const completedAssignments = await Assignment.countDocuments({
-      userId: req.user.id,
+      userId: req.userId,
       status: 'completed'
     });
 
@@ -598,7 +598,7 @@ router.get('/dashboard', auth, async (req, res) => {
 // Get all assignments for a user
 router.get('/assignments', auth, async (req, res) => {
   try {
-    const assignments = await Assignment.find({ userId: req.user.id })
+    const assignments = await Assignment.find({ userId: req.userId })
       .sort({ createdAt: -1 });
     
     res.json({
@@ -615,7 +615,7 @@ router.get('/assignments', auth, async (req, res) => {
 router.get('/assignments/manage', auth, async (req, res) => {
   try {
     const assignments = await Assignment.find({ 
-      userId: req.user.id,
+      userId: req.userId,
       status: { $ne: 'completed' }
     }).sort({ dueDate: 1 });
     
@@ -644,7 +644,7 @@ router.put('/assignments/:id', auth, async (req, res) => {
   try {
     const { status } = req.body;
     const assignment = await Assignment.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.id },
+      { _id: req.params.id, userId: req.userId },
       { status },
       { new: true }
     );
@@ -774,7 +774,7 @@ router.post('/assignments/convert-ieee', auth, async (req, res) => {
 // Get all exam preparations
 router.get('/exam-prep', auth, async (req, res) => {
   try {
-    const examPreps = await ExamPrep.find({ userId: req.user.id })
+    const examPreps = await ExamPrep.find({ userId: req.userId })
       .sort({ examDate: 1 });
     
     res.json({
@@ -815,7 +815,7 @@ router.post('/exam-prep/create', auth, async (req, res) => {
     }));
     
     const examPrep = new ExamPrep({
-      userId: req.user.id,
+      userId: req.userId,
       examName,
       examDate,
       topics: studyPlan,
@@ -842,7 +842,7 @@ router.get('/exam-prep/:id', auth, async (req, res) => {
   try {
     const examPrep = await ExamPrep.findOne({
       _id: req.params.id,
-      userId: req.user.id
+      userId: req.userId
     });
     
     if (!examPrep) {
@@ -866,7 +866,7 @@ router.put('/exam-prep/:id/progress', auth, async (req, res) => {
     
     const examPrep = await ExamPrep.findOne({
       _id: req.params.id,
-      userId: req.user.id
+      userId: req.userId
     });
     
     if (!examPrep) {

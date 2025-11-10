@@ -120,4 +120,88 @@ export const chatbotAPI = {
   voiceQuery: (query) => api.post('/chatbot/voice', { query }),
 };
 
+// Agentic AI APIs
+export const agenticAIAPI = {
+  // Core Agentic AI
+  getAgentStatus: () => api.get('/agenticAI/agent-status'),
+  understandGoals: (goal) => api.post('/agenticAI/understand-goals', { goal }),
+  createPlan: (data) => api.post('/agenticAI/create-plan', data),
+  executePlan: (taskId) => api.post('/agenticAI/execute-plan', { taskId }),
+  getMyPlan: () => api.get('/agenticAI/my-plan'),
+  getMyPlans: (params) => api.get('/agenticAI/my-plans', { params }),
+  getPlanById: (planId) => api.get(`/agenticAI/plan/${planId}`),
+  updateTaskStatus: (planId, phaseIndex, taskIndex, status) => 
+    api.put(`/agenticAI/plan/${planId}/task/${phaseIndex}/${taskIndex}`, { status }),
+  completeTask: (taskId) => api.post('/agenticAI/complete-task', { taskId }),
+  getNotifications: (params) => api.get('/agenticAI/notifications', { params }),
+  markNotificationRead: (notificationId) => api.put(`/agenticAI/notifications/${notificationId}/read`),
+  getTests: (params) => api.get('/agenticAI/tests', { params }),
+  getTestById: (testId) => api.get(`/agenticAI/tests/${testId}`),
+  submitTest: (testId, answers) => api.post(`/agenticAI/tests/${testId}/submit`, { answers }),
+  generateStudyPlan: (topics, timeline) => api.post('/agenticAI/study-plan', { topics, timeline }),
+  getCareerAdvice: () => api.post('/agenticAI/career-advice'),
+  getAutomationStatus: () => api.get('/agenticAI/automation-status'),
+};
+
+// Agentic Features APIs (Student)
+export const agenticFeaturesAPI = {
+  // Dashboard
+  getDashboard: () => api.get('/agenticFeatures/dashboard'),
+  
+  // Assignments
+  getAssignments: (params) => api.get('/agenticFeatures/assignments', { params }),
+  createAssignment: (data) => api.post('/agenticFeatures/assignments/create', data),
+  updateAssignment: (id, data) => api.put(`/agenticFeatures/assignments/${id}`, data),
+  deleteAssignment: (id) => api.delete(`/agenticFeatures/assignments/${id}`),
+  manageAssignments: () => api.get('/agenticFeatures/assignments/manage'),
+  generateContent: (data) => api.post('/agenticFeatures/assignments/generate-content', data),
+  convertToIEEE: (data) => api.post('/agenticFeatures/assignments/convert-ieee', data),
+  
+  // Exam Prep
+  getExamPreps: (params) => api.get('/agenticFeatures/exam-prep', { params }),
+  createExamPrep: (data) => api.post('/agenticFeatures/exam-prep/create', data),
+  getExamPrepById: (id) => api.get(`/agenticFeatures/exam-prep/${id}`),
+  updateExamProgress: (id, data) => api.put(`/agenticFeatures/exam-prep/${id}/progress`, data),
+  
+  // Materials
+  findMaterials: (query, options) => api.post('/agenticFeatures/materials/find', { query, options }),
+  
+  // Events
+  autoRegisterEvents: (query, preferences) => api.post('/agenticFeatures/events/auto-register', { query, preferences }),
+  
+  // Bookings
+  getBookings: (params) => api.get('/agenticFeatures/bookings', { params }),
+  
+  // Preferences
+  getPreferences: () => api.get('/agenticFeatures/preferences'),
+  updatePreferences: (data) => api.put('/agenticFeatures/preferences', data),
+};
+
+// Admin Agentic Features APIs
+export const adminAgenticAPI = {
+  // Reports
+  generateReport: (reportType, filters) => api.post('/adminAgenticFeatures/reports/generate', { reportType, filters }),
+  
+  // Helpdesk
+  manageHelpdesk: (action, data) => api.post('/adminAgenticFeatures/helpdesk/manage', { action, data }),
+  autoProcessTickets: () => api.post('/adminAgenticFeatures/helpdesk/auto-process'),
+  generateResponse: (ticketId, question) => api.post('/adminAgenticFeatures/helpdesk/generate-response', { ticketId, question }),
+  
+  // Scheduling
+  optimizeSchedule: (scheduleType, data) => api.post('/adminAgenticFeatures/scheduling/optimize', { scheduleType, data }),
+  generateTimetable: (data) => api.post('/adminAgenticFeatures/scheduling/timetable', data),
+  generateExamSchedule: (data) => api.post('/adminAgenticFeatures/scheduling/exam-schedule', data),
+  
+  // User Management
+  manageUsers: (action, data) => api.post('/adminAgenticFeatures/users/manage', { action, data }),
+  bulkCreateUsers: (users) => api.post('/adminAgenticFeatures/users/bulk-create', { users }),
+  getInactiveUsers: (days) => api.get('/adminAgenticFeatures/users/inactive', { params: { days } }),
+  detectAnomalies: () => api.get('/adminAgenticFeatures/users/anomalies'),
+  
+  // Communication
+  draftAnnouncement: (data) => api.post('/adminAgenticFeatures/communication/draft', data),
+  sendTargetedMessage: (message, filters) => api.post('/adminAgenticFeatures/communication/targeted', { message, filters }),
+  createCampaign: (data) => api.post('/adminAgenticFeatures/communication/campaign', data),
+};
+
 export default api;

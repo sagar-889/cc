@@ -44,3 +44,7 @@ backend/uploads/*
 # Temporary files
 *.tmp
 *.temp
+
+# Documentation files (except README)
+*.md
+!README.md
