@@ -1,0 +1,35 @@
+# Backend files (not needed for frontend deployment)
+backend/
+
+# Documentation
+*.md
+!README.md
+
+# Test files
+test-*.js
+debug-*.js
+diagnose-*.js
+enhance-*.js
+fix-*.js
+
+# Scripts
+*.ps1
+
+# Node modules (will be installed during build)
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
