@@ -14,6 +14,8 @@ import Materials from './pages/Materials';
 import AddMaterial from './pages/AddMaterial';
 import Faculty from './pages/Faculty';
 import Navigation from './pages/Navigation';
+import AddNavigation from './pages/AddNavigation';
+import ManageNavigation from './pages/ManageNavigation';
 import Helpdesk from './pages/Helpdesk';
 import AIAssistant from './pages/AIAssistant';
 import AgenticAIAssistant from './pages/AgenticAIAssistant';
@@ -67,6 +69,8 @@ function App() {
             <Route path="events" element={<Events />} />
             <Route path="add-event" element={<AddEvent />} />
             <Route path="navigation" element={<Navigation />} />
+            <Route path="manage-navigation" element={<ManageNavigation />} />
+            <Route path="add-navigation" element={<AddNavigation />} />
             <Route path="helpdesk" element={<Helpdesk />} />
             <Route path="ai-assistant" element={<AIAssistant />} />
             <Route path="agentic-ai-assistant" element={<AgenticAIAssistant />} />

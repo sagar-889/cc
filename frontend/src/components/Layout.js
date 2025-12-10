@@ -52,6 +52,8 @@ const Layout = () => {
     // Admin/Faculty only - Add Event
     ...(isAdminOrFaculty ? [{ path: '/add-event', icon: Plus, label: 'Add Event' }] : []),
     { path: '/navigation', icon: MapPin, label: 'Navigation' },
+    // Admin only - Manage Navigation
+    ...(isAdmin ? [{ path: '/manage-navigation', icon: MapPin, label: 'Manage Places' }] : []),
     { path: '/helpdesk', icon: HelpCircle, label: 'Helpdesk' },
   ];
 
