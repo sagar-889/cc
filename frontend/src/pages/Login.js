@@ -49,48 +49,55 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 animate-fade-in">
+    <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute top-20 left-20 w-72 h-72 bg-pastel-purple opacity-20 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-pastel-pink opacity-20 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
+      <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-pastel-green opacity-10 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+      
+      <div className="max-w-md w-full bg-dark-lighter rounded-2xl shadow-3d p-8 animate-zoom-in card-3d border border-dark-card relative z-10">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-pastel-purple to-pastel-pink rounded-full mb-4 shadow-glow-purple animate-float">
             <LogIn className="text-white" size={32} />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
-          <p className="text-gray-600 mt-2">Sign in to CampusCompanion</p>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-pastel-purple via-pastel-pink to-pastel-yellow bg-clip-text text-transparent">
+            Welcome Back
+          </h1>
+          <p className="text-text-secondary mt-2">Sign in to CampusCompanion</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-text-primary mb-2">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" size={20} />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 bg-dark-card border border-dark-card rounded-lg focus:ring-2 focus:ring-pastel-purple focus:border-transparent text-text-primary transition-all"
                 placeholder="you@university.edu"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-text-primary mb-2">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" size={20} />
               <input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 bg-dark-card border border-dark-card rounded-lg focus:ring-2 focus:ring-pastel-purple focus:border-transparent text-text-primary transition-all"
                 placeholder="••••••••"
               />
             </div>
@@ -99,16 +106,16 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-pastel-purple to-pastel-pink text-white py-3 rounded-lg font-semibold hover:shadow-glow-purple transition-all disabled:opacity-50 disabled:cursor-not-allowed card-3d"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-600">
+          <p className="text-text-secondary">
             Don't have an account?{' '}
-            <Link to="/register" className="text-primary-600 font-semibold hover:text-primary-700">
+            <Link to="/register" className="text-pastel-purple font-semibold hover:text-pastel-pink transition-colors">
               Sign up
             </Link>
           </p>

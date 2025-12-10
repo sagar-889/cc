@@ -149,14 +149,14 @@ const Dashboard = () => {
     }
   };
 
-  const StatCard = ({ icon: Icon, label, value, color }) => (
-    <div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+  const StatCard = ({ icon: Icon, label, value, colorClass }) => (
+    <div className={`rounded-xl shadow-3d p-6 card-3d ${colorClass} transition-all`}>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-gray-600 text-sm">{label}</p>
-          <p className="text-3xl font-bold mt-2">{value}</p>
+          <p className="text-white text-opacity-90 text-sm font-medium">{label}</p>
+          <p className="text-3xl font-bold mt-2 text-white">{value}</p>
         </div>
-        <div className={`w-12 h-12 rounded-lg ${color} flex items-center justify-center`}>
+        <div className="w-12 h-12 rounded-lg bg-white bg-opacity-20 flex items-center justify-center backdrop-blur-sm">
           <Icon className="text-white" size={24} />
         </div>
       </div>
@@ -166,7 +166,10 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <div className="relative">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-pastel-purple border-t-transparent shadow-glow-purple"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-pastel-purple rounded-full opacity-20 animate-ping"></div>
+        </div>
       </div>
     );
   }
@@ -174,9 +177,10 @@ const Dashboard = () => {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl p-8 text-white">
-        <h1 className="text-3xl font-bold mb-2">Welcome back, {user?.name}! 👋</h1>
-        <p className="text-primary-100">
+      <div className="bg-gradient-to-r from-pastel-purple to-pastel-pink rounded-xl p-8 text-white shadow-3d card-3d relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl animate-float"></div>
+        <h1 className="text-3xl font-bold mb-2 relative z-10">Welcome back, {user?.name}! 👋</h1>
+        <p className="text-white text-opacity-90 relative z-10">
           {user?.department && `${user.department} • `}
           {user?.year && `Year ${user.year} • `}
           {user?.semester && `Semester ${user.semester}`}
@@ -189,34 +193,34 @@ const Dashboard = () => {
           icon={BookOpen}
           label="Enrolled Courses"
           value={stats.courses}
-          color="bg-blue-500"
+          colorClass="card-green"
         />
         <StatCard
           icon={Calendar}
           label="Today's Classes"
           value={stats.upcomingClasses}
-          color="bg-green-500"
+          colorClass="card-yellow"
         />
         <StatCard
           icon={ClipboardList}
           label="Active Assignments"
           value={assignments.filter(a => a.status !== 'completed').length}
-          color="bg-purple-500"
+          colorClass="card-pink"
         />
         <StatCard
           icon={Brain}
           label="AI Automations"
           value={automationStatus?.automatedTasks?.length || 0}
-          color="bg-orange-500"
+          colorClass="card-purple"
         />
       </div>
 
       {/* Agentic AI Goal Achievement Section */}
       {currentPlan ? (
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-6 text-white">
+        <div className="bg-gradient-to-r from-pastel-purple to-pastel-pink rounded-xl p-6 text-white shadow-3d card-3d">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center">
-              <Target className="mr-3" size={28} />
+              <Target className="mr-3 animate-float" size={28} />
               <div>
                 <h2 className="text-xl font-bold">Current Goal</h2>
                 <p className="text-purple-100">{currentPlan.plan?.goal?.description}</p>
@@ -259,40 +263,40 @@ const Dashboard = () => {
       {/* Agentic AI Features Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Assignment Manager */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-dark-lighter rounded-xl shadow-3d p-6 card-3d border border-dark-card">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold flex items-center">
-              <ClipboardList className="mr-2 text-blue-600" size={20} />
+            <h3 className="text-lg font-bold flex items-center text-text-primary">
+              <ClipboardList className="mr-2 text-pastel-green" size={20} />
               AI Assignment Manager
             </h3>
-            <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs">
+            <span className="bg-pastel-green bg-opacity-20 text-pastel-green px-2 py-1 rounded-full text-xs">
               {assignments.filter(a => a.status !== 'completed').length} Active
             </span>
           </div>
-          <p className="text-gray-600 text-sm mb-4">Intelligent assignment scheduling and management</p>
+          <p className="text-text-secondary text-sm mb-4">Intelligent assignment scheduling and management</p>
           <button 
             onClick={() => window.location.href = '/assignment-manager'}
-            className="w-full py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
+            className="w-full py-2 bg-pastel-green bg-opacity-20 text-pastel-green rounded-lg hover:bg-opacity-30 hover:shadow-glow-green transition-all card-3d"
           >
             Manage Assignments
           </button>
         </div>
 
         {/* Exam Preparation */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-dark-lighter rounded-xl shadow-3d p-6 card-3d border border-dark-card">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold flex items-center">
-              <GraduationCap className="mr-2 text-green-600" size={20} />
+            <h3 className="text-lg font-bold flex items-center text-text-primary">
+              <GraduationCap className="mr-2 text-pastel-yellow" size={20} />
               AI Exam Prep
             </h3>
-            <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">
+            <span className="bg-pastel-yellow bg-opacity-20 text-pastel-yellow px-2 py-1 rounded-full text-xs">
               {examPreps.length} Plans
             </span>
           </div>
-          <p className="text-gray-600 text-sm mb-4">Personalized study plans and progress tracking</p>
+          <p className="text-text-secondary text-sm mb-4">Personalized study plans and progress tracking</p>
           <button 
             onClick={() => window.location.href = '/exam-prep'}
-            className="w-full py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors"
+            className="w-full py-2 bg-pastel-yellow bg-opacity-20 text-pastel-yellow rounded-lg hover:bg-opacity-30 hover:shadow-glow-yellow transition-all card-3d"
           >
             View Study Plans
           </button>

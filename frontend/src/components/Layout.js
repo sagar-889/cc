@@ -61,46 +61,48 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-dark-bg">
       {/* Header */}
-      <header className="bg-white shadow-sm fixed top-0 left-0 right-0 z-40">
+      <header className="bg-dark-lighter shadow-3d fixed top-0 left-0 right-0 z-40 border-b border-dark-card">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
+              className="lg:hidden p-2 rounded-lg hover:bg-dark-card text-text-primary transition-all"
             >
               {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <h1 className="text-xl font-bold text-primary-600">CampusCompanion</h1>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-pastel-purple to-pastel-pink bg-clip-text text-transparent animate-pulse-slow">
+              CampusCompanion
+            </h1>
           </div>
           
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => setChatbotOpen(true)}
-              className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
+              className="p-2 rounded-lg hover:bg-pastel-purple hover:shadow-glow-purple text-text-primary transition-all card-3d"
               title="CC-AI Chatbot"
             >
               <MessageCircle size={20} />
             </button>
             <button 
               onClick={() => setVoiceChatOpen(true)}
-              className="p-2 rounded-lg hover:bg-primary-50 text-primary-600 transition-colors"
+              className="p-2 rounded-lg hover:bg-pastel-green hover:shadow-glow-green text-text-primary transition-all card-3d"
               title="Voice Assistant"
             >
               <Phone size={20} />
             </button>
-            <button className="p-2 rounded-lg hover:bg-gray-100 relative">
+            <button className="p-2 rounded-lg hover:bg-dark-card text-text-primary transition-all relative card-3d">
               <Bell size={20} />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              <span className="absolute top-1 right-1 w-2 h-2 bg-pastel-pink rounded-full animate-bounce-slow"></span>
             </button>
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-8 h-8 bg-gradient-to-br from-pastel-purple to-pastel-pink rounded-full flex items-center justify-center text-white font-semibold shadow-3d animate-float">
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
               <div className="hidden md:block">
-                <p className="text-sm font-medium">{user?.name}</p>
-                <p className="text-xs text-gray-500">{user?.email}</p>
+                <p className="text-sm font-medium text-text-primary">{user?.name}</p>
+                <p className="text-xs text-text-secondary">{user?.email}</p>
               </div>
             </div>
           </div>
@@ -109,7 +111,7 @@ const Layout = () => {
 
       {/* Sidebar */}
       <aside className={`
-        fixed top-16 left-0 bottom-0 w-64 bg-white shadow-lg transform transition-transform duration-300 z-30
+        fixed top-16 left-0 bottom-0 w-64 bg-dark-lighter shadow-3d transform transition-transform duration-300 z-30 border-r border-dark-card
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0
         overflow-y-auto
@@ -125,10 +127,10 @@ const Layout = () => {
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
                 className={`
-                  flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors
+                  flex items-center space-x-3 px-4 py-3 rounded-lg transition-all card-3d
                   ${isActive 
-                    ? 'bg-primary-50 text-primary-600 font-medium' 
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? 'bg-gradient-to-r from-pastel-purple to-pastel-pink text-white font-medium shadow-glow-purple' 
+                    : 'text-text-secondary hover:bg-dark-card hover:text-text-primary'
                   }
                 `}
               >
@@ -140,7 +142,7 @@ const Layout = () => {
           
           <button
             onClick={handleLogout}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-pastel-pink hover:bg-dark-card hover:shadow-glow-pink transition-all card-3d"
           >
             <LogOut size={20} />
             <span>Logout</span>
@@ -149,7 +151,7 @@ const Layout = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="pt-16 lg:pl-64 min-h-screen">
+      <main className="pt-16 lg:pl-64 min-h-screen bg-dark-bg">
         <div className="p-6">
           <Outlet />
         </div>
@@ -158,7 +160,7 @@ const Layout = () => {
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-70 z-20 lg:hidden backdrop-blur-sm"
           onClick={() => setSidebarOpen(false)}
         />
       )}
